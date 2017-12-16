@@ -6,6 +6,11 @@
 
     <string name="action_settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="camera_fragment">Camera Fragment</string>
+    <string name="gallery_fragment">Gallery Fragment</string>
+    <string name="slide_show_fragment">Slide Show Fragment</string>
+    <string name="tools_fragment">ToolsFragment</string>
+    <string name="send_fragment">Send Fragment</string>
+    <string name="share_fragment">Share Fragment</string>
+
 </resources>
