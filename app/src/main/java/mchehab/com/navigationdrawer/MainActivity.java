@@ -1,8 +1,8 @@
 package mchehab.com.navigationdrawer;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,6 +14,13 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
+
+    private CameraFragment cameraFragment = new CameraFragment();
+    private GalleryFragment galleryFragment = new GalleryFragment();
+    private SlideShowFragment slideShowFragment = new SlideShowFragment();
+    private ToolsFragment toolsFragment = new ToolsFragment();
+    private ShareFragment shareFragment = new ShareFragment();
+    private SendFragment sendFragment = new SendFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +37,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);
+
+        if(savedInstanceState == null){
+            addFragment(cameraFragment);
+        }
     }
 
     @Override
@@ -53,27 +64,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+        Fragment fragmentSelected = null;
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            fragmentSelected = cameraFragment;
         } else if (id == R.id.nav_gallery) {
-
+            fragmentSelected = galleryFragment;
         } else if (id == R.id.nav_slideshow) {
-
+            fragmentSelected = slideShowFragment;
         } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+            fragmentSelected = toolsFragment;
+        }else if(id == R.id.nav_share){
+            fragmentSelected = shareFragment;
+        }else if(id == R.id.nav_send){
+            fragmentSelected = sendFragment;
         }
+
+        replaceFragment(fragmentSelected);
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void addFragment(Fragment fragment){
+        getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, fragment).commit();
+    }
+
+    private void replaceFragment(Fragment fragment){
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment).commit();
     }
 }
