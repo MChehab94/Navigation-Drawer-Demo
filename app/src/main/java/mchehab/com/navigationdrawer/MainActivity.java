@@ -1,6 +1,7 @@
 package mchehab.com.navigationdrawer;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -22,12 +23,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ShareFragment shareFragment = new ShareFragment();
     private SendFragment sendFragment = new SendFragment();
 
+    private int currentMenuItem;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        currentMenuItem = R.id.nav_camera;//default first item
 
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
@@ -65,10 +70,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment fragmentSelected = null;
         int id = item.getItemId();
-
+        if(id == currentMenuItem){
+            drawer.closeDrawer(GravityCompat.START);
+            return false;
+        }
         if (id == R.id.nav_camera) {
             fragmentSelected = cameraFragment;
         } else if (id == R.id.nav_gallery) {
@@ -82,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }else if(id == R.id.nav_send){
             fragmentSelected = sendFragment;
         }
-
+        currentMenuItem = id;
         replaceFragment(fragmentSelected);
 
         drawer.closeDrawer(GravityCompat.START);
